@@ -47,6 +47,13 @@ resource "google_compute_address" "redis_internal_address" {
   address_type = "INTERNAL"
 }
 
+data "template_file" "init_redis"{
+  template = file("${path.module}/templates/init_redis.tpl")
+  vars {
+    redis_port = var.redis_listen_port
+  }
+}
+
 //resource "google_compute_address" "redis_external_address" {
 //  count = "2"
 //  name   = "elastic-public-ip-${count.index}"
