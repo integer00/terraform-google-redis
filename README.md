@@ -28,15 +28,17 @@ Functional examples are included in the
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| bucket\_name | The name of the bucket to create | string | n/a | yes |
 | project\_id | The project ID to deploy to | string | n/a | yes |
-| redis_instance_name | GCP zone to use | string | europe-west1-b | yes |
-| redis_instance_zone | GCP zone to use | string | europe-west1-b | yes |
-| redis_instance_disk_size | Redis instance disk size | int | 10 | no |
-| redis_instance_disk_type | Redis instance disk type | string | hdd | no |
-| redis_instance_image_type | Redis instance image type | string | centos | yes |
-| redis_instance_machine_type | Redis instance machine type | string | n1-standard-2 | yes |
-| redis_listen_port | Redis instance default port | int | 6379 | yes |
+| redis_instance_name | Redis instance name | string | redis | yes |
+| redis_instance_machine_type | GCP zone to use | string | n1-standard-1 | yes |
+| redis_instance_zone | Redis instance zone | string | n/a | yes |
+| redis_instance_network | Redis instance disk type | string | n/a | no |
+| redis_instance_disk_type | Redis instance image type | string | pd-standard | yes |
+| redis_instance_disk_size | Redis instance machine type | ing | 10 | yes |
+| redis_instance_image_type | Redis instance machine type | ing | n/a | yes |
+| redis_instance_region | Redis instance machine type | ing | n/a | yes |
+| redis_instance_subnetwork | Redis instance machine type | ing | n/a | yes |
+| redis_listen_port | Redis instance default port | int | 6379 | no |
 
 
 ## Outputs

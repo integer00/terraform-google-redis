@@ -1,8 +1,9 @@
 resource "google_compute_instance" "vm_redis" {
   name         = var.redis_instance_name
-  machine_type = var.redis_instance_disk_type
+  project      = var.project_id
+  machine_type = var.redis_instance_machine_type
   zone         = var.redis_instance_zone
-  tags         = var.redis_instance_tags
+  tags         = []
 
   allow_stopping_for_update = "false"
 
@@ -10,34 +11,38 @@ resource "google_compute_instance" "vm_redis" {
     source = google_compute_disk.redis_disk.self_link
   }
 
-//  metadata = {
-//    ssh-keys = join("\n", var.ssh_keys)
-//  }
+  metadata = {
+//    ssh-keys = join("\n", var.ssh_keys
+    startup-script = "sleep 7; "
+  }
 
   network_interface {
-    subnetwork = var.redis_instance_subnetwork.self_link
+    network = var.redis_instance_network
     network_ip = google_compute_address.redis_internal_address.address
 
-//    access_config {
-//    }
+    access_config {
+      //ephemerial
+    }
   }
 
 }
 
 resource "google_compute_disk" "redis_disk" {
-  name  = "${var.redis_instance_name}-disk"
-  type  = var.redis_instance_disk_type
-  size  = var.redis_instance_disk_size
-  zone  = var.redis_instance_zone
-  image = var.redis_instance_image_type
+  name    = "${var.redis_instance_name}-disk"
+  project = var.project_id
+  type    = var.redis_instance_disk_type
+  size    = var.redis_instance_disk_size
+  zone    = var.redis_instance_zone
+  image   = var.redis_instance_image_type
 
   physical_block_size_bytes = 4096
 }
 
 resource "google_compute_address" "redis_internal_address" {
-  name   = "${var.redis_instance_name}-internal-address"
-  region = var.redis_instance_region
-  subnetwork = var.redis_instance_subnetwork
+  name         = "${var.redis_instance_name}-internal-address"
+  project      = var.project_id
+  region       = var.redis_instance_region
+  subnetwork   = var.redis_instance_subnetwork
 
   address_type = "INTERNAL"
 }
@@ -49,12 +54,12 @@ resource "google_compute_address" "redis_internal_address" {
 //}
 
 //resource "google_compute_firewall" "redis_allow_external" {
-//  name    = "external-elastic"
-//  network = google_compute_network.default.name
+//  name    = "external-redis"
+//  network = var.redis_instance_network
 //
 //  allow {
 //    protocol = "tcp"
-//    ports    = ["9200"]
+//    ports    = [var.redis_listen_port]
 //  }
-//  target_tags = ["elastic-external"]
+//  target_tags = ["redis-external"]
 //}

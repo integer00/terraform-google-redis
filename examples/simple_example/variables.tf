@@ -19,7 +19,9 @@ variable "project_id" {
   type        = string
 }
 
-variable "bucket_name" {
-  description = "The name of the bucket to create."
-  type        = string
+variable "network" {
+  default = "default"
+}
+variable "subnetwork" {
+  default = "default"
 }

@@ -18,53 +18,38 @@ variable "project_id" {
   description = "The project ID to deploy to"
 }
 
-variable "bucket_name" {
-  description = "The name of the bucket to create"
-}
-
 variable "redis_instance_name" {
   description = "Redis vm name"
   default = "redis"
 }
-
+variable "redis_instance_machine_type" {
+  description = "Redis machine type"
+  default = "n1-standard-1"
+}
 variable "redis_instance_zone" {
   description = "Redis default zone"
-  default = "europe-west1-b"
 }
-
-variable "redis_instance_subnetwork" {
-  description = "Subnetwork to use"
-  default = "default"
-}
-
-variable "redis_instance_tags" {
-  description = "Tags to attach to vm"
-  default = ""
-}
-
-variable "redis_instance_region" {
-  description = "Redis region"
-  default = "europe-west1"
-}
-
-variable "redis_instance_disk_size" {
-  description = "Redis disk size in GB"
-  default = 10
+variable "redis_instance_network" {
+  description = "Network for redis instance"
 }
 
 variable "redis_instance_disk_type" {
   description = "Redis disk type"
   default = "pd-standard"
 }
-
+variable "redis_instance_disk_size" {
+  description = "Redis disk size in GB"
+  default = 10
+}
 variable "redis_instance_image_type" {
   description = "Redis image type"
-  default = "centos-7"
 }
 
-variable "redis_instance_machine_type" {
-  description = "Redis machine type"
-  default = "n1-standard-2"
+variable "redis_instance_region" {
+  description = "Redis region"
+}
+variable "redis_instance_subnetwork" {
+  description = "Subnetwork to use"
 }
 
 variable "redis_listen_port" {
