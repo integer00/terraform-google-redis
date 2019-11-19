@@ -13,7 +13,7 @@ resource "google_compute_instance" "vm_redis" {
 
   metadata = {
 //    ssh-keys = join("\n", var.ssh_keys
-    startup-script = "sleep 7; "
+    startup-script = data.template_file.init_redis.rendered
   }
 
   network_interface {
@@ -49,7 +49,8 @@ resource "google_compute_address" "redis_internal_address" {
 
 data "template_file" "init_redis"{
   template = file("${path.module}/templates/init_redis.tpl")
-  vars {
+
+  vars = {
     redis_port = var.redis_listen_port
   }
 }
