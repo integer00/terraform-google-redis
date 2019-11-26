@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-output "bucket_name" {
-  description = "The name of the bucket."
-  value       = module.example.bucket_name
-}
-
 output "project_id" {
   description = "The ID of the project in which resources are provisioned."
   value       = var.project_id
 }
+
+output "redis_port" {
+  value = module.fixture-redis.redis_instance_port
+}
+
+output "redis_zone" {
+  value = module.fixture-redis.redis_instance_zone
+}
+
+output "redis_name" {
+  value = module.fixture-redis.redis_instance_name
+}
+
+output "redis_instance_public_ip" {
+  value = module.fixture-redis.redis_instance_public_ip
+}
+

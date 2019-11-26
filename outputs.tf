@@ -13,3 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+output "redis_instance_zone" {
+  value = var.redis_instance_zone
+}
+
+output "redis_instance_port" {
+  value = var.redis_listen_port
+}
+output "redis_instance_name" {
+  value = google_compute_instance.vm_redis.name
+}
+
+output "redis_instance_public_ip" {
+  value = google_compute_instance.vm_redis.network_interface[0].access_config[0].nat_ip
+}

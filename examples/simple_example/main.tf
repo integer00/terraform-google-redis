@@ -18,15 +18,14 @@ provider "google" {
   version = "~> 2.0"
 }
 
-module "redis" {
+module "redis-example" {
   source = "../.."
 
   project_id  = var.project_id
-
-  redis_listen_port = "6969"
-
   redis_instance_network = var.network
   redis_instance_subnetwork = var.subnetwork
+
+  redis_listen_port = "6969"
   redis_instance_image_type = "centos-7"
   redis_instance_region = "europe-west2"
   redis_instance_zone = "europe-west2-a"

@@ -13,4 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+output "project_id" {
+  description = "The ID of the project in which resources are provisioned."
+  value       = var.project_id
+}
+
+output "redis_port" {
+  value = module.redis-example.redis_instance_port
+}
+
+output "redis_zone" {
+  value = module.redis-example.redis_instance_zone
+}
+
+output "redis_name" {
+  value = module.redis-example.redis_instance_name
+}
+
+output "redis_instance_public_ip" {
+  value = module.redis-example.redis_instance_public_ip
+}
 

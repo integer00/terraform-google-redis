@@ -14,19 +14,30 @@
  * limitations under the License.
  */
 
-provider "random" {
-  version = "~> 2.0"
+
+resource "tls_private_key" "fixture-key" {
+  algorithm = "RSA"
+  rsa_bits = 4096
 }
 
-resource "random_pet" "main" {
-  length    = 1
-  prefix    = "simple-example"
-  separator = "-"
+resource "local_file" "fixture-private-key" {
+  content = tls_private_key.fixture-key.private_key_pem
+  filename = "${path.module}/ssh/key"
 }
 
-module "example" {
-  source = "../../../examples/simple_example"
+module "fixture-redis" {
+  source = "../../../"
 
   project_id  = var.project_id
-  bucket_name = random_pet.main.id
+  redis_listen_port = var.redis_listen_port
+  redis_instance_network = var.network
+  redis_instance_subnetwork = var.subnetwork
+  redis_instance_image_type = "centos-7"
+  redis_instance_region = var.redis_instance_region
+  redis_instance_zone = var.redis_instance_zone
+
+
+  redis_metadata = {
+    sshKeys = "ci:${tls_private_key.fixture-key.public_key_openssh}"
+  }
 }

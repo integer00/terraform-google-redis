@@ -56,3 +56,13 @@ variable "redis_listen_port" {
   description = "Redis listen port"
   default = 6379
 }
+
+variable "redis_metadata" {
+  type = map(string)
+  default = {}
+}
+
+variable "redis_instance_tags" {
+  type = list(string)
+  default = []
+}

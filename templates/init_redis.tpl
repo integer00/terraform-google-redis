@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 ###
-export REDIS_PORT=${redis_port}
 
 set -e
 
@@ -11,6 +10,16 @@ exit_trap () {
 
 trap exit_trap EXIT
 
+check_previous_install() {
+  echo "Checking previous installation"
+  echo "------------------------------"
+
+  if [ -f "/etc/redis_provisioned" ]; then
+   cat /etc/redis_provisioned
+   exit 0
+  fi
+
+}
 install_packages() {
   echo "Installing packages"
   echo "-------------------"
@@ -57,7 +66,7 @@ bind 127.0.0.1
 
 protected-mode yes
 
-port $REDIS_PORT
+port ${redis_port}
 
 tcp-backlog 511
 
@@ -71,7 +80,7 @@ daemonize yes
 
 supervised systemd
 
-pidfile /var/run/redis_$REDIS_PORT.pid
+pidfile /var/run/redis_${redis_port}.pid
 
 loglevel notice
 
@@ -222,12 +231,32 @@ cleanup(){
   rm -rf /tmp/redis-stable
 }
 
+check_redis(){
+  echo "check redis"
+  echo "-----------"
+  if redis-cli -p ${redis_port} ping| grep -q 'PONG'; then
+   echo "Redis is online"
+  else
+   exit 1
+  fi
 
+}
+check_previous_install
 install_packages
 setup_redis
 start_redis
 cleanup
+check_redis
 
 echo "done"
+printf "touching provision file"
 
+cat <<EOF > /etc/redis_provisioned
+managed by google startup script
+Last redis install was at $(date "+%Y:%m:%d %H:%M:%S-%s")
+
+EOF
+echo "...OK"
+
+echo "exiting"
 exit 0

@@ -32,12 +32,15 @@ suites:
     verifier:
       color: false
       systems:
-        - name: simple_example local
-          backend: local
-          controls:
-            - gcloud
-            - gsutil
         - name: simple_example gcp
           backend: gcp
           controls:
             - gcp
+        - name: simple_example local
+          backend: ssh
+          user: ci
+          hosts_output: redis_instance_public_ip
+          key_files:
+            - test/fixtures/simple_example/ssh/key
+          controls:
+            - os
