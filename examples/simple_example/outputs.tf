@@ -19,18 +19,31 @@ output "project_id" {
 }
 
 output "redis_port" {
-  value = module.redis-example.redis_instance_port
+  description = "Redis listen port"
+  value       = module.redis-example.redis_port
 }
 
-output "redis_zone" {
-  value = module.redis-example.redis_instance_zone
+output "redis_instance_zone" {
+  description = "Redis default zone"
+  value       = module.redis-example.redis_instance_zone
 }
 
-output "redis_name" {
-  value = module.redis-example.redis_instance_name
+output "redis_instance_name" {
+  description = "Redis vm name"
+  value       = module.redis-example.redis_instance_name
 }
 
 output "redis_instance_public_ip" {
-  value = module.redis-example.redis_instance_public_ip
+  description = "Redis vm public ip"
+  value       = module.redis-example.redis_instance_public_ip
 }
 
+output "redis_instance_internal_ip" {
+  description = "Redis vm internal ip"
+  value       = module.redis-example.redis_instance_internal_ip
+}
+
+output "redis_firewall_name" {
+  description = "Redis vm firewall name"
+  value       = module.redis-example.redis_firewall
+}

@@ -7,15 +7,21 @@ This example illustrates how to use the `redis` module.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| bucket\_name | The name of the bucket to create. | string | n/a | yes |
 | project\_id | The ID of the project in which to provision resources. | string | n/a | yes |
-
+| redis\_instance\_metadata | Redis instance metadata | map(string) | `<map>` | no |
+| redis\_listen\_port | Redis listen port | string | `"6969"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| bucket\_name | The name of the bucket. |
+| project\_id | The ID of the project in which resources are provisioned. |
+| redis\_firewall\_name | Redis vm firewall name |
+| redis\_instance\_internal\_ip | Redis vm internal ip |
+| redis\_instance\_name | Redis vm name |
+| redis\_instance\_public\_ip | Redis vm public ip |
+| redis\_instance\_zone | Redis default zone |
+| redis\_port | Redis listen port |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

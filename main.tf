@@ -14,18 +14,26 @@
  * limitations under the License.
  */
 locals {
+  local_redis_tags = ["redis-firewall"]
+
   local_redis_metadata = {
     startup-script = data.template_file.init_redis.rendered
-
   }
+
 }
 
 data "template_file" "init_redis" {
   template = file("${path.module}/templates/init_redis.tpl")
 
   vars = {
-    redis_port = var.redis_listen_port
+    redis_port        = var.redis_listen_port,
+    redis_internal_ip = google_compute_address.redis_internal_address.address
   }
+}
+
+data "google_compute_network" "redis_network" {
+  project = var.project_id
+  name    = var.redis_instance_network
 }
 
 data "google_compute_subnetwork" "redis_subnetwork" {
@@ -47,7 +55,10 @@ resource "google_compute_instance" "vm_redis" {
   project      = var.project_id
   machine_type = var.redis_instance_machine_type
   zone         = var.redis_instance_zone
-  tags         = var.redis_instance_tags
+  tags = concat(
+    local.local_redis_tags,
+    var.redis_instance_tags
+  )
 
   allow_stopping_for_update = "false"
 
@@ -56,13 +67,12 @@ resource "google_compute_instance" "vm_redis" {
   }
 
   metadata = merge(
-          local.local_redis_metadata,
-           var.redis_metadata
+    local.local_redis_metadata,
+    var.redis_instance_metadata
   )
 
-
   network_interface {
-    network = data.google_compute_subnetwork.redis_subnetwork.name
+    network    = data.google_compute_network.redis_network.name
     network_ip = google_compute_address.redis_internal_address.address
 
     access_config {
@@ -84,10 +94,24 @@ resource "google_compute_disk" "redis_disk" {
 }
 
 resource "google_compute_address" "redis_internal_address" {
-  name         = "${var.redis_instance_name}-internal-address"
-  project      = var.project_id
-  region       = var.redis_instance_region
-  subnetwork   = data.google_compute_subnetwork.redis_subnetwork.name
+  name       = "${var.redis_instance_name}-internal-address"
+  project    = var.project_id
+  region     = var.redis_instance_region
+  subnetwork = data.google_compute_subnetwork.redis_subnetwork.name
 
   address_type = "INTERNAL"
+}
+
+resource "google_compute_firewall" "redis_firewall" {
+  project     = var.project_id
+  name        = "${var.redis_instance_name}-firewall"
+  network     = data.google_compute_network.redis_network.name
+  description = "Allow redis at internal network"
+
+  allow {
+    protocol = "tcp"
+    ports    = [var.redis_listen_port]
+  }
+
+  source_tags = ["firewall-redis"]
 }

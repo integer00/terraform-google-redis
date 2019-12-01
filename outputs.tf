@@ -14,16 +14,31 @@
  * limitations under the License.
  */
 output "redis_instance_zone" {
-  value = var.redis_instance_zone
+  description = "Redis default zone"
+  value       = var.redis_instance_zone
 }
 
-output "redis_instance_port" {
-  value = var.redis_listen_port
+output "redis_port" {
+  description = "Redis listen port"
+  value       = var.redis_listen_port
 }
+
 output "redis_instance_name" {
-  value = google_compute_instance.vm_redis.name
+  description = "Redis vm name"
+  value       = google_compute_instance.vm_redis.name
 }
 
 output "redis_instance_public_ip" {
-  value = google_compute_instance.vm_redis.network_interface[0].access_config[0].nat_ip
+  description = "Redis vm public ip"
+  value       = google_compute_instance.vm_redis.network_interface[0].access_config[0].nat_ip
+}
+
+output "redis_instance_internal_ip" {
+  description = "Redis vm internal ip"
+  value       = google_compute_instance.vm_redis.network_interface[0].network_ip
+}
+
+output "redis_firewall" {
+  description = "Redis vm firewall name"
+  value       = google_compute_firewall.redis_firewall.name
 }

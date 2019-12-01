@@ -13,26 +13,3 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-variable "project_id" {
-  description = "The ID of the project in which to provision resources."
-  type        = string
-}
-variable "redis_listen_port" {
-  default = "6969"
-}
-variable "redis_instance_region" {
-  default = "europe-west2"
-}
-variable "redis_instance_zone" {
-  default = "europe-west2-a"
-}
-variable "redis_instance_name" {
-  default = "redis"
-}
-variable "network" {
-  default = "default"
-}
-variable "subnetwork" {
-  default = "default"
-}

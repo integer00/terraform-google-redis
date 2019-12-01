@@ -19,9 +19,13 @@ variable "project_id" {
   type        = string
 }
 
-variable "network" {
-  default = "default"
+variable "redis_listen_port" {
+  description = "Redis listen port"
+  default     = "6969"
 }
-variable "subnetwork" {
-  default = "default"
+
+variable "redis_instance_metadata" {
+  description = "Redis instance metadata"
+  type        = map(string)
+  default     = {}
 }

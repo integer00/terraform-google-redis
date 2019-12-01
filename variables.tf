@@ -18,51 +18,64 @@ variable "project_id" {
   description = "The project ID to deploy to"
 }
 
+variable "redis_listen_port" {
+  description = "Redis listen port"
+  default     = 6379
+}
+
 variable "redis_instance_name" {
   description = "Redis vm name"
-  default = "redis"
+  default     = "redis"
 }
+
 variable "redis_instance_machine_type" {
   description = "Redis machine type"
-  default = "n1-standard-1"
+  default     = "n1-standard-1"
 }
+
 variable "redis_instance_zone" {
   description = "Redis default zone"
+  default     = "europe-west2-a"
 }
+
 variable "redis_instance_network" {
-  description = "Network for redis instance"
+  description = "Redis instance network"
+  default     = "default"
+}
+
+variable "redis_instance_subnetwork" {
+  description = "Redis instance subnetwork"
+  default     = "default"
 }
 
 variable "redis_instance_disk_type" {
   description = "Redis disk type"
-  default = "pd-standard"
+  default     = "pd-standard"
 }
+
 variable "redis_instance_disk_size" {
   description = "Redis disk size in GB"
-  default = 10
+  default     = 10
 }
+
 variable "redis_instance_image_type" {
   description = "Redis image type"
+  default     = "centos-7"
 }
 
 variable "redis_instance_region" {
   description = "Redis region"
-}
-variable "redis_instance_subnetwork" {
-  description = "Subnetwork to use"
+  default     = "europe-west2"
 }
 
-variable "redis_listen_port" {
-  description = "Redis listen port"
-  default = 6379
-}
-
-variable "redis_metadata" {
-  type = map(string)
-  default = {}
+variable "redis_instance_metadata" {
+  description = "Redis instance metadata"
+  type        = map(string)
+  default     = {}
 }
 
 variable "redis_instance_tags" {
-  type = list(string)
-  default = []
+  description = "Tags to attach instance with"
+  type        = list(string)
+  default     = []
 }

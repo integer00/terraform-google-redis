@@ -16,7 +16,6 @@ module "redis" {
   version = "~> 0.1"
 
   project_id  = "<PROJECT ID>"
-  bucket_name = "gcs-test-bucket"
 }
 ```
 
@@ -29,23 +28,29 @@ Functional examples are included in the
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | project\_id | The project ID to deploy to | string | n/a | yes |
-| redis_instance_name | Redis instance name | string | redis | yes |
-| redis_instance_machine_type | GCP zone to use | string | n1-standard-1 | yes |
-| redis_instance_zone | Redis instance zone | string | n/a | yes |
-| redis_instance_network | Redis instance disk type | string | n/a | no |
-| redis_instance_disk_type | Redis instance image type | string | pd-standard | yes |
-| redis_instance_disk_size | Redis instance machine type | ing | 10 | yes |
-| redis_instance_image_type | Redis instance machine type | ing | n/a | yes |
-| redis_instance_region | Redis instance machine type | ing | n/a | yes |
-| redis_instance_subnetwork | Redis instance machine type | ing | n/a | yes |
-| redis_listen_port | Redis instance default port | int | 6379 | no |
-
+| redis\_instance\_disk\_size | Redis disk size in GB | string | `"10"` | no |
+| redis\_instance\_disk\_type | Redis disk type | string | `"pd-standard"` | no |
+| redis\_instance\_image\_type | Redis image type | string | `"centos-7"` | no |
+| redis\_instance\_machine\_type | Redis machine type | string | `"n1-standard-1"` | no |
+| redis\_instance\_metadata | Redis instance metadata | map(string) | `<map>` | no |
+| redis\_instance\_name | Redis vm name | string | `"redis"` | no |
+| redis\_instance\_network | Redis instance network | string | `"default"` | no |
+| redis\_instance\_region | Redis region | string | `"europe-west2"` | no |
+| redis\_instance\_subnetwork | Redis instance subnetwork | string | `"default"` | no |
+| redis\_instance\_tags | Tags to attach instance with | list(string) | `<list>` | no |
+| redis\_instance\_zone | Redis default zone | string | `"europe-west2-a"` | no |
+| redis\_listen\_port | Redis listen port | string | `"6379"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| bucket\_name |  |
+| redis\_firewall | Redis vm firewall name |
+| redis\_instance\_internal\_ip | Redis vm internal ip |
+| redis\_instance\_name | Redis vm name |
+| redis\_instance\_public\_ip | Redis vm public ip |
+| redis\_instance\_zone | Redis default zone |
+| redis\_port | Redis listen port |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

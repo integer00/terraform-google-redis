@@ -62,7 +62,7 @@ setup_redis(){
 
 ################################## NETWORK #####################################
 
-bind 127.0.0.1
+bind ${redis_internal_ip}
 
 protected-mode yes
 
@@ -199,7 +199,7 @@ Wants=network-online.target
 
 [Service]
 ExecStart=/usr/bin/redis-server /etc/redis.conf --supervised systemd
-ExecStop=/usr/bin/redis-cli shutdown
+ExecStop=/usr/bin/redis-cli -h ${redis_internal_ip} -p ${redis_port} shutdown
 Type=notify
 User=redis
 Group=redis
@@ -234,7 +234,7 @@ cleanup(){
 check_redis(){
   echo "check redis"
   echo "-----------"
-  if redis-cli -p ${redis_port} ping| grep -q 'PONG'; then
+  if redis-cli -h ${redis_internal_ip} -p ${redis_port} ping| grep -q 'PONG'; then
    echo "Redis is online"
   else
    exit 1

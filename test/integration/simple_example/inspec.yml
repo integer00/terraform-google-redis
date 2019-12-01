@@ -18,3 +18,9 @@ attributes:
   - name: redis_instance_public_ip
     required: true
     type: string
+  - name: redis_instance_internal_ip
+    required: true
+    type: string
+  - name: redis_firewall_name
+    required: true
+    type: string

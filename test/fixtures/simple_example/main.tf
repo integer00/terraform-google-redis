@@ -17,27 +17,18 @@
 
 resource "tls_private_key" "fixture-key" {
   algorithm = "RSA"
-  rsa_bits = 4096
+  rsa_bits  = 4096
 }
 
 resource "local_file" "fixture-private-key" {
-  content = tls_private_key.fixture-key.private_key_pem
+  content  = tls_private_key.fixture-key.private_key_pem
   filename = "${path.module}/ssh/key"
 }
 
-module "fixture-redis" {
-  source = "../../../"
+module "fixture" {
+  source = "../../../examples/simple_example"
 
-  project_id  = var.project_id
-  redis_listen_port = var.redis_listen_port
-  redis_instance_network = var.network
-  redis_instance_subnetwork = var.subnetwork
-  redis_instance_image_type = "centos-7"
-  redis_instance_region = var.redis_instance_region
-  redis_instance_zone = var.redis_instance_zone
-
-
-  redis_metadata = {
+  redis_instance_metadata = {
     sshKeys = "ci:${tls_private_key.fixture-key.public_key_openssh}"
   }
 }
